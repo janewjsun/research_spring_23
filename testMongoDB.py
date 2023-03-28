@@ -10,7 +10,8 @@ username = urllib.parse.quote_plus('readonly')
 password = urllib.parse.quote_plus('mongodb@i24')
 client = MongoClient('mongodb://%s:%s@10.80.4.91' % (username, password))
 db = client["reconciled"]  # put database name here
-col = db["tm_900_raw_v4.1__1"]
+# col = db["groundtruth_scene_1__yawns"]
+col = db["groundtruth_scene_1_130__cajoles"]
 # col = db["63898d48d430891009401330__post12"]  # put collection name here
 
 LANES = {'E1': [0, 12], 'E2': [12, 24], 'E3': [24, 36], 'E4': [36, 48], 'E5': [48, 60],
@@ -46,11 +47,10 @@ COARSE_VEHICLE_CLASSES = ["sedan", "midsize", "pickup", "van", "semi", "truck", 
 def process_doc(doc):
 
     ## todo: fix calculate_speed_accel to not have return value
-    speed, accel = data_process_improved.calculate_speed_accel(doc)
+    data_process_improved.calculate_speed_accel(doc, cur_avg_speed, cur_avg_accel)
     data_process_improved.find_lane_changes(doc, lanes_occupied, LANES)
     data_process_improved.find_vehicle_class(doc, vehicle_classes, COARSE_VEHICLE_CLASSES)
     data_process_improved.calculate_trajectory_lengths(doc, lengths)
-    return (speed, accel)
 
 cursor = col.find({})
 cnt = 0
@@ -64,9 +64,3 @@ lengths = []
 
 with ThreadPoolExecutor(max_workers=8) as executor:
     futures = [executor.submit(process_doc, doc) for doc in cursor]
-
-    for future in as_completed(futures):
-        speed, accel = future.result()
-        cur_avg_speed.append(speed)
-        cur_avg_accel.append(accel)
-

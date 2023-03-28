@@ -3,8 +3,6 @@
 
 # todo: have different functions for each graph instead of one large function
 
-import numpy as np
-
 import testMongoDB
 
 speed = testMongoDB.cur_avg_speed
@@ -13,16 +11,25 @@ lanes = testMongoDB.lanes_occupied
 vehicle_class = testMongoDB.vehicle_classes
 lengths = testMongoDB.lengths
 
+import seaborn as sns
+import numpy as np
+
+
 def graph(ax1, ax2, ax3, ax4, ax5):
 
     # one speed per trajectory thus len(trajectory) = len(speed)
     data_length = len(speed)
-    ax1.hist(speed, weights=np.ones(len(speed)) / len(speed), color = "palevioletred")
+
+    #kde plot better represents this data
+    sns.kdeplot(speed, ax = ax1, color = "palevioletred", fill = True)
+    # ax1.hist(speed, weights=np.ones(len(speed)) / len(speed), color = "palevioletred")
     ax1.set_ylabel("frequency (%)")
     ax1.set_xlabel("speed (mph)")
     ax1.set_title("distribution of speeds")
 
-    ax2.hist(accel, range = (-3,3), weights=np.ones(len(accel))/len(accel), color = "palevioletred")
+
+    sns.kdeplot(accel, ax = ax2, color = "palevioletred", fill = True)
+    # ax2.hist(accel, range = (-3,3), weights=np.ones(len(accel))/len(accel), color = "palevioletred")
     ax2.set_ylabel("frequency (%)")
     ax2.set_xlabel("acceleration (f/s^2)")
     ax2.set_title("distribution of accelerations")
@@ -47,7 +54,8 @@ def graph(ax1, ax2, ax3, ax4, ax5):
     ax4.set_title("distribution of vehicle types")
     # ax4.tick_params(axis='x', labelrotation=45)
 
-    ax5.hist(lengths, weights=np.ones(len(lengths)) / len(lengths), color = "palevioletred")
+    sns.kdeplot(lengths, ax = ax5, color = "palevioletred", fill = True)
+    # ax5.hist(lengths, weights=np.ones(len(lengths)) / len(lengths), color = "palevioletred")
     ax5.set_ylabel("frequency (%)")
     ax5.set_xlabel("length (feet)")
     ax5.set_title("distribution of trajectory lengths")

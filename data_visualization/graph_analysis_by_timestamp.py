@@ -1,5 +1,6 @@
 import json
 import numpy as np
+import seaborn as sns
 
 FILE = '/Users/janesun/Desktop/spring23_research/1_130/groundtruth_scene_1_130__cajoles_transformed_by_car.json'
 
@@ -22,7 +23,9 @@ def graph_follow_distance_distribution(ax):
     # include values of follow distance that had 0 frequency so dictionary has keys of equal
     # intervals
 
-    ax.hist(distances, weights = np.ones(len(distances))/len(distances), color = "palevioletred")
+
+    # ax.hist(distances, weights = np.ones(len(distances))/len(distances), color = "palevioletred")
+    sns.kdeplot(distances, ax = ax, color = "palevioletred", fill = True)
 
     # for i in range(min(dic.keys()), max(dic.keys())+1, 50):
     #     dic[i] = dic.get(i,0)
@@ -52,8 +55,9 @@ def graph_follow_distance_change_distribution(ax):
             # dic[diff] = dic.get(diff, 0)+1
             distance_changes.append(diff)
 
-    ax.hist(distance_changes, weights = np.ones(len(distance_changes))/len(distance_changes)
-            , color = "palevioletred")
+    # ax.hist(distance_changes, weights = np.ones(len(distance_changes))/len(distance_changes)
+    #         , color = "palevioletred")
+    sns.kdeplot(distance_changes, ax = ax, color = "palevioletred", fill = True)
 
     # # include values of follow distance change that had 0 frequency so dictionary has keys of
     # # equal intervals
