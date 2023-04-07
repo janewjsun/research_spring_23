@@ -2,83 +2,50 @@
 
 
 # time thing is a very basic way of showing time it run this file
-import time
-now1 = time.time()
+# import time
+# now1 = time.time()
 
 
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
-import graph_analysis_by_timestamp as by_timestamp
 import graph_data_improved
 
-fontsize = 5
+def graph(data):
+    cur_avg_speed, cur_avg_accel, lanes_occupied, vehicle_classes, lengths = data
 
-figure = plt.figure()
+    fontsize = 5
 
-plt.rcParams.update({'font.size': 8})
-plt.subplots_adjust(left = 0.125, right = 0.9, bottom = 0.1, top = 0.9, wspace=0.2, hspace=0.5)
+    figure = plt.figure()
 
-gs = mpl.gridspec.GridSpec(nrows=5, ncols=4, height_ratios=[1,1,4,4,4])
+    plt.rcParams.update({'font.size': 8})
+    plt.subplots_adjust(left = 0.125, right = 0.9, bottom = 0.1, top = 0.9, wspace=0.2, hspace=0.5)
 
-title = figure.add_subplot(gs[0,0:4])
-title.set_axis_off()
-title.text(0.47,0.5,"Plots", fontsize=20, color="#808080")
+    gs = mpl.gridspec.GridSpec(nrows=4, ncols=2, height_ratios=[1,4,4,4])
 
+    title = figure.add_subplot(gs[0,0:2])
+    title.set_axis_off()
+    title.text(0.47,0.5,"Plots", fontsize=20, color="#808080")
 
-indiv_title = figure.add_subplot(gs[1,0:2])
-indiv_title.text(0.3,0.5,"Individual Trajectories", fontsize=13, color="#808080")
-indiv_title.tick_params(left = False, right = False , labelleft = False ,
-                labelbottom = False, bottom = False)
+    # indiv
+    i1 = figure.add_subplot(gs[1,0])
+    i2 = figure.add_subplot(gs[1,1])
+    i3 = figure.add_subplot(gs[2,0])
+    i4 = figure.add_subplot(gs[2,1])
+    i5 = figure.add_subplot(gs[3,0])
 
-timestamp_title = figure.add_subplot(gs[1,2:4])
-timestamp_title.text(0.3,0.5,"Timestamped Trajectories", fontsize=13, color="#808080")
-timestamp_title.tick_params(left = False, right = False , labelleft = False ,
-                labelbottom = False, bottom = False)
-
-# indiv
-i1 = figure.add_subplot(gs[2,0])
-i2 = figure.add_subplot(gs[2,1])
-# by_car.graph_speed_accel(i1, i2)
-
-
-i3 = figure.add_subplot(gs[3,0])
-# by_car.graph_lane_changes(i3)
-
-i4 = figure.add_subplot(gs[3,1])
-# by_car.graph_vehicle_class(i4)
+    graph_data_improved.graph_cur_avg_speed(cur_avg_speed, i1)
+    graph_data_improved.graph_cur_avg_accel(cur_avg_accel, i2)
+    graph_data_improved.graph_lane_occupation(lanes_occupied,i3)
+    graph_data_improved.graph_vehicle_class(vehicle_classes,i4)
+    graph_data_improved.graph_traj_length(lengths, i5)
 
 
-i5 = figure.add_subplot(gs[4,0])
-# by_car.graph_trajectory_lengths(i5)
+    i6 = figure.add_subplot(gs[3,1])
+    i6.tick_params(left = False, right = False , labelleft = False ,
+                    labelbottom = False, bottom = False)
 
-graph_data_improved.graph(i1, i2, i3, i4, i5)
+    # now2=time.time()
+    # print(now2-now1)
+    plt.show()
 
-i6 = figure.add_subplot(gs[4,1])
-i6.tick_params(left = False, right = False , labelleft = False ,
-                labelbottom = False, bottom = False)
-
-#timestamp
-
-t1 = figure.add_subplot(gs[2,2])
-by_timestamp.graph_follow_distance_distribution(t1)
-
-t2 = figure.add_subplot(gs[2,3])
-by_timestamp.graph_follow_distance_change_distribution(t2)
-
-t3 = figure.add_subplot(gs[3,2])
-t3.tick_params(left = False, right = False , labelleft = False ,
-                labelbottom = False, bottom = False)
-t4 = figure.add_subplot(gs[3,3])
-t4.tick_params(left = False, right = False , labelleft = False ,
-                labelbottom = False, bottom = False)
-t5 = figure.add_subplot(gs[4,2])
-t5.tick_params(left = False, right = False , labelleft = False ,
-                labelbottom = False, bottom = False)
-t6 = figure.add_subplot(gs[4,3])
-t6.tick_params(left = False, right = False , labelleft = False ,
-                labelbottom = False, bottom = False)
-
-now2=time.time()
-print(now2-now1)
-plt.show()

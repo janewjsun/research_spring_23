@@ -1,5 +1,4 @@
 import json
-import numpy as np
 import seaborn as sns
 
 FILE = '/Users/janesun/Desktop/spring23_research/1_130/groundtruth_scene_1_130__cajoles_transformed_by_car.json'
@@ -9,7 +8,6 @@ with open(FILE) as file:
 
 # prints basic stats including distribution of follow distances
 def graph_follow_distance_distribution(ax):
-    dic = {}
     distances = []
     for car in by_car_by_timestamp:
         if not by_car_by_timestamp[car].get('follow distance'): continue

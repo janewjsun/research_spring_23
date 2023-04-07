@@ -43,7 +43,6 @@ COARSE_VEHICLE_CLASSES = ["sedan", "midsize", "pickup", "van", "semi", "truck", 
 #     data_process_improved.find_vehicle_class(doc, vehicle_classes, COARSE_VEHICLE_CLASSES)
 #     data_process_improved.calculate_trajectory_lengths(doc, lengths)
 
-
 def process_doc(doc):
 
     ## todo: fix calculate_speed_accel to not have return value

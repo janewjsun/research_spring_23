@@ -66,4 +66,6 @@ def find_vehicle_class(doc, vehicle_class, class_meanings):
     vehicle_class[class_name] += 1
 
 def calculate_trajectory_lengths(doc, lengths):
+    if abs(doc["ending_x"]-doc["starting_x"]) < 0:
+        print(abs(doc["ending_x"]-doc["starting_x"]))
     lengths.append(abs(doc["ending_x"]-doc["starting_x"]))
