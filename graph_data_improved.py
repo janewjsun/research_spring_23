@@ -56,5 +56,5 @@ def graph_traj_length(lengths, ax5):
     ax5.set_ylabel("frequency (%)")
     ax5.set_xlabel("length (feet)")
     ax5.set_title("distribution of trajectory lengths")
-    ax5.set_xlim(left = 1000, right = 2000)
-    ax5.set_ylim(bottom = 0, top = 0.01)
+    # ax5.set_xlim(left = 1000, right = 2000)
+    # ax5.set_ylim(bottom = 0, top = 0.01)

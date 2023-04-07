@@ -13,7 +13,7 @@ import urllib
 
 import data_process_improved
 from concurrent.futures import ThreadPoolExecutor
-import data_visualization.visualization_grid as viz_grid
+import visualization_grid as viz_grid
 
 # if __name__ == '__main__':
 
@@ -29,9 +29,8 @@ LANES = {'E1': [0, 12], 'E2': [12, 24], 'E3': [24, 36], 'E4': [36, 48], 'E5': [4
          'E6': [60, 72], 'W1': [72, 84], 'W2': [84, 96], 'W3': [96, 108], 'W4': [108, 120],
          'W5': [120, 132], 'W6': [132, 144]}
 COARSE_VEHICLE_CLASSES = ["sedan", "midsize", "pickup", "van", "semi", "truck", "motorcycle"]
-def process_doc(doc):
 
-    ## todo: fix calculate_speed_accel to not have return value
+def process_doc(doc):
     data_process_improved.calculate_speed_accel(doc, cur_avg_speed, cur_avg_accel)
     data_process_improved.find_lane_changes(doc, lanes_occupied, LANES)
     data_process_improved.find_vehicle_class(doc, vehicle_classes, COARSE_VEHICLE_CLASSES)

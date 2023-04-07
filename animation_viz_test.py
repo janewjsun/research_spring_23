@@ -14,6 +14,7 @@ password = urllib.parse.quote_plus('mongodb@i24')
 client = MongoClient('mongodb://%s:%s@10.80.4.91' % (username, password))
 db = client["reconciled"]  # put database name here
 col = db["groundtruth_scene_1_130__cajoles"]
+# col = db["63643fafd11ece4cb356b2ed__wvcithmergeallnodes"]
 
 # get the time range of the entire collection
 t_max = col.find().sort("first_timestamp", -1).limit(1)[0]["first_timestamp"]
