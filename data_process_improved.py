@@ -1,6 +1,17 @@
-# this processes data by pymongo documents, functions are compatible w/ multi-threading or
-# collection-based processing
+# this file processes data by pymongo documents
 
+# lane boundaries
+LANES = {'E1': [0, 12], 'E2': [12, 24], 'E3': [24, 36], 'E4': [36, 48], 'E5': [48, 60],
+         'E6': [60, 72], 'W1': [72, 84], 'W2': [84, 96], 'W3': [96, 108], 'W4': [108, 120],
+         'W5': [120, 132], 'W6': [132, 144]}
+
+# vehicle types
+VEHICLE = ["sedan", "midsize", "pickup", "van", "semi", "truck", "motorcycle"]
+
+
+# this code takes in a specific document, and two lists that house all the speed and acceleration
+# data across all trajectories. it calculates the speed and acceleration of "doc"'s data, saving
+# every 10th data point in all_cur_speed and all_cur_accel. the unit is in feet and seconds
 def calculate_speed_accel(doc, all_cur_speed, all_cur_accel):
     x_pos = doc["x_position"]
     time = doc["timestamp"]
@@ -14,6 +25,7 @@ def calculate_speed_accel(doc, all_cur_speed, all_cur_accel):
         if i==1:
             continue
 
+        # speed: feet/sec; accel: feet/sec^2
         momentary_speed = abs((cur_x - prev_x)) / (time_diff)
         momentary_accel = (prev_speed - momentary_speed) / (time_diff)
 
@@ -25,29 +37,18 @@ def calculate_speed_accel(doc, all_cur_speed, all_cur_accel):
         prev_x = cur_x
         prev_speed=momentary_speed
 
-        # momentary_speed = abs((cur_x - prev_x) / (time_diff))
-        # car_avg_speed = (car_avg_speed*(i-1) + momentary_speed) / (i) # (i-1) here because speed is for 2 distances
-        # prev_x = cur_x
-        #
-        # if i==1:
-        #     prev_speed = car_avg_speed
-        #     continue
-        #
-        # momentary_accel = abs((prev_speed-car_avg_speed)/(time_diff))
-        # car_avg_accel = (car_avg_accel*(i-2) +momentary_accel)/(i-1)
-        # prev_speed=car_avg_speed
         ctr+=1
-    return all_cur_speed, all_cur_accel
 
 
-
-def find_lane_changes(doc, lanes_occupied, lanes):
+# this code takes in a document and a dic of all lane occupation across all trajectories. it finds
+# the lanes that this document occupies based on the lane boundaries LANES
+def find_lane_changes(doc, lanes_occupied):
 
     y_pos = doc["y_position"]
     prev, cur = None, None
     for i in range(len(y_pos)):
         y=y_pos[i]
-        for lane, rnge in lanes.items():
+        for lane, rnge in LANES.items():
             if rnge[0] < y <= rnge[1]:
                 cur = lane
                 if not prev:
@@ -60,12 +61,15 @@ def find_lane_changes(doc, lanes_occupied, lanes):
             lanes_occupied[prev] += 1
             prev = cur
 
-def find_vehicle_class(doc, vehicle_class, class_meanings):
+
+# this code takes in a doc and a dictionary keeping track of all vehicle classes in the trajs. it
+# updates this dictionary
+def find_vehicle_class(doc, vehicle_class):
     cars_class = doc["coarse_vehicle_class"]
-    class_name = class_meanings[cars_class]
+    class_name = VEHICLE[cars_class]
     vehicle_class[class_name] += 1
 
+# this code takes in a doc and a list keeping track of all trajectory lengths. it calculates the
+# length of "doc"'s trajectory and updates the list
 def calculate_trajectory_lengths(doc, lengths):
-    if abs(doc["ending_x"]-doc["starting_x"]) < 0:
-        print(abs(doc["ending_x"]-doc["starting_x"]))
     lengths.append(abs(doc["ending_x"]-doc["starting_x"]))

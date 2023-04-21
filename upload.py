@@ -1,3 +1,5 @@
+# code to upload photo to internal viz_dev site
+
 from datetime import datetime
 import requests
 
@@ -10,9 +12,3 @@ ret = requests.post(url, files=files)
 print(ret)
 if ret.status_code == 200:
     print('Uploaded!')
-
-
-#     now = now.strftime("%Y-%m-%d_%H-%M-%S")
-#     url = 'http://viz-dev.isis.vanderbilt.edu:5991/latest?type=jane_viz'
-#     files = {'upload_file': open(f_name,'rb')}
-#     ret = requests.post(url, files=files)
