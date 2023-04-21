@@ -1,5 +1,5 @@
 # research_spring_23
-This repository contains two scripts to analyze a given collection of traffic trajectories in two ways: first, as a whole, and second, via a sliding window. The collection of trajectories is stored in MongoDB, and it is trajectory-based rather than timestamp-based. Connected MongoDB collections have relevant queries such as "first_timestamp", "coarse_vehicle_class", and so on. 
+This repository contains two python scripts to analyze a given collection of traffic trajectories in two ways: first, as a whole, and second, via a sliding window. The collection of trajectories is stored in MongoDB, and it is trajectory-based rather than timestamp-based. Connected MongoDB collections have relevant queries such as "first_timestamp", "coarse_vehicle_class", and so on. 
 
 ## requirements
 To run this program, you will need:
