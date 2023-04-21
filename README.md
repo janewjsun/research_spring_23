@@ -31,5 +31,7 @@ note: you must connect to the database via secure vpn server
 
 ## author
 created by Jane with starter code such as connection to MongoDB by Yanbing
+
 created for the I-24 Motion Project https://i24motion.org/ as part of Vanderbilt's Institute for Software Integrated Systems
+
 spring 2023
